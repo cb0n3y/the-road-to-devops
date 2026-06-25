@@ -1,0 +1,29 @@
+# Ignore Vagrant state directories
+**/.vagrant/
+
+# Ignore box files
+*.box
+
+# Shared scripts: ignore generated logs or temp files
+**/*.log
+**/*.bak
+**/*.tmp
+
+# IDE/editor junk
+**/*.swp
+**/*.swo
+**/.idea/
+**/.vscode/
+**/.DS_Store
+
+# Shell history or secrets (if ever created)
+**/*.env
+**/*.secret
+
+# Optional: Python/Ansible/Terraform (if used later)
+__pycache__/
+*.pyc
+.terraform/
+*.tfstate*
+
+.vscode/

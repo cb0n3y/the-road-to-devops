@@ -1,0 +1,23 @@
+name: Minimal CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-trailing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for trailing whitespace
+        run: |
+          if grep -rI --exclude-dir=.git '[[:space:]]$' ./; then
+            echo "Trailing whitespace found!"
+            exit 1
+          else
+            echo "No trailing whitespace."
+          fi
