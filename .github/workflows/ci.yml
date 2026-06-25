@@ -9,5 +9,4 @@ on:
 jobs:
   lint-trailing:
     name: Lint Trailing Whitespace
-    uses: cb0n3y/ci-templates/.github/workflows/lint-python.yml@main
-  
+    uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@main
