@@ -16,11 +16,11 @@ My personal journey from Ops to DevOps. Documentation, projects, and lessons lea
 - [ansible-homelab](link)
 - ...
 
-## Repositorios por tema
+## Repositories by Topic
 ### Python
 - [python-basics](link) → Fundamentals, parsing (JSON, CSV, etc.)
 - [python-flask](link) → Web applications
 - [python-devops](link) → Useful scripts, exporters, etc.
 
-### Infraestructura
+### Infraestructure
 - Example
