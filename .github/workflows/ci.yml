@@ -1,4 +1,4 @@
-name: Minimal CI
+name: CI Workflow
 
 on:
   push:
@@ -8,16 +8,6 @@ on:
 
 jobs:
   lint-trailing:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Check for trailing whitespace
-        run: |
-          if grep -rI --exclude-dir=.git '[[:space:]]$' ./; then
-            echo "Trailing whitespace found!"
-            exit 1
-          else
-            echo "No trailing whitespace."
-          fi
+    name: Lint Trailing Whitespace
+    uses: cb0n3y/ci-templates/.github/workflows/lint-python.yml@main
+  
