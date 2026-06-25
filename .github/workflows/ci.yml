@@ -8,7 +8,5 @@ on:
 
 jobs:
   lint-trailing:
-    runs-on: self-hosted
-    steps:
-      - name: Lint Trailing Whitespace
-        uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@main
+    name: Lint Trailing Whitespace
+    uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@main
