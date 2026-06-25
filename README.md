@@ -1,5 +1,10 @@
 # The Road to DevOps
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![GitHub Repo Size](https://img.shields.io/github/repo-size/cb0n3y/the-road-to-devops)
+![Last Commit](https://img.shields.io/github/last-commit/cb0n3y/the-road-to-devops)
+[![.github/workflows/ci.yml](https://github.com/cb0n3y/the-road-to-devops/actions/workflows/ci.yml/badge.svg)](https://github.com/cb0n3y/the-road-to-devops/actions/workflows/ci.yml)
+
 My personal journey from Ops to DevOps. Documentation, projects, and lessons learned.
 
 ## Current Status
