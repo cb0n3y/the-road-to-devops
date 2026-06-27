@@ -32,7 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--groups", "/DevOps-Lab/CI-CD"]
     end
 
-    runner.vm.provision "shell", 
+    runner.vm.provision "shell",
     env: {
       "GITHUB_URL"    => ENV["GITHUB_URL"] || "https://github.com/cb0n3y/the-road-to-devops",
       "RUNNER_NAME"   => ENV["RUNNER_NAME"] || "ro4d-runner",
