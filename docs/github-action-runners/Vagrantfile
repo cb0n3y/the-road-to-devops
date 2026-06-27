@@ -1,0 +1,94 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+BOX_CPUS = 2
+BOX_RAM  = 4096
+
+VM01_IP = "192.168.56.10"
+VM02_IP = "192.168.56.11"
+
+RUNNER_VERSION = "2.335.1"
+RUNNER_URL = "https://github.com/actions/runner/releases/download/v#{RUNNER_VERSION}/actions-runner-linux-x64-#{RUNNER_VERSION}.tar.gz"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box_check_update = true
+  config.ssh.forward_agent = true
+
+  # =============================================
+  # VM 2 - GitHub Self-Hosted Runner (Rocky 9)
+  # =============================================
+    config.vm.define "github-action-runner" do |runner|
+    runner.vm.box = "generic/rocky9"
+    runner.vm.hostname = "github-action-runner"
+    runner.vm.network "private_network", ip: VM02_IP
+
+    runner.vm.provider "virtualbox" do |vb|
+      vb.gui = false
+      vb.name = "github-action-runner"
+      vb.cpus = BOX_CPUS
+      vb.memory = BOX_RAM
+      vb.customize ["modifyvm", :id, "--groups", "/DevOps-Lab/CI-CD"]
+    end
+
+    runner.vm.provision "shell", 
+    env: {
+      "GITHUB_URL"    => ENV["GITHUB_URL"] || "https://github.com/cb0n3y/the-road-to-devops",
+      "RUNNER_NAME"   => ENV["RUNNER_NAME"] || "ro4d-runner",
+      "RUNNER_LABELS" => ENV["RUNNER_LABELS"] || "self-hosted,rocky9,docker",
+      "RUNNER_TOKEN"  => ENV["RUNNER_TOKEN"]
+      },
+    inline: <<-SHELL
+      set -e
+
+      echo "=== Actualizando sistema ==="
+      dnf -y update
+
+      echo "=== Instalando dependencias ==="
+      dnf -y install curl tar git unzip vim jq policycoreutils-python-utils
+
+      echo "=== Instalando Docker ==="
+      dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+      dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      systemctl --now enable docker
+      usermod -aG docker vagrant
+
+      echo "=== Preparando carpeta del runner ==="
+      mkdir -p /opt/actions-runner
+      chown -R vagrant:vagrant /opt/actions-runner
+      cd /opt/actions-runner
+
+      echo "=== Descargando GitHub Runner ==="
+      curl -L -o actions-runner.tar.gz "#{RUNNER_URL}"
+      tar xzf actions-runner.tar.gz
+      rm -f actions-runner.tar.gz
+      chown -R vagrant:vagrant /opt/actions-runner
+
+      ./bin/installdependencies.sh
+
+      echo "=== Aplicando fixes SELinux ==="
+      chcon -R -t usr_t /opt/actions-runner
+      restorecon -R -v /opt/actions-runner
+
+      echo "=== Configurando como servicio ==="
+      if [ -z "${RUNNER_TOKEN}" ]; then
+        echo "ERROR: RUNNER_TOKEN no fue proporcionado"
+        echo "Ejecuta: export RUNNER_TOKEN=tu-token-aqui"
+        exit 1
+      fi
+
+      sudo -u vagrant ./config.sh --url "${GITHUB_URL}" \
+                                  --token "${RUNNER_TOKEN}" \
+                                  --name "${RUNNER_NAME}" \
+                                  --labels "${RUNNER_LABELS}" \
+                                  --unattended --replace
+
+      ./svc.sh install
+      ./svc.sh start
+
+      echo "=== Estado del runner ==="
+      systemctl status actions.runner.* --no-pager -l
+    SHELL
+  end
+end

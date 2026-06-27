@@ -86,3 +86,5 @@ Jun 26 16:55:51 github-action-runner runsvc.sh[81864]: √ Connected to GitHub
 Jun 26 16:55:52 github-action-runner runsvc.sh[81864]: Current runner version: '2.335.1'
 Jun 26 16:55:52 github-action-runner runsvc.sh[81864]: 2026-06-26 16:55:52Z: Listening for Jobs
 ```
+
+A solution at the end was the [`Vagrantfile`](./Vagrantfile)
