@@ -24,7 +24,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'build/**'
+            cleanWs()
         }
     }
 }
