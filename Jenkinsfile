@@ -4,17 +4,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                cleanWs()
                 echo "Fetching repository..."
                 checkout scm
+                sh 'mkdir -p build'
             }
         }
 
         stage('Verify') {
-            sh '''
-                echo "Repository successfully cloned."
-                pwd
-                ls -lh
-            '''
+            steps {
+                sh '''
+                    echo "Repository successfully cloned."
+                    pwd
+                    ls -lh
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            archiveArtifacts artifacts: 'build/**'
         }
     }
 }
