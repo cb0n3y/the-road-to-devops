@@ -10,7 +10,7 @@ jobs:
   lint-trailing:
     name: Lint Trailing Whitespace
     uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@main
-  
+
   lint-vagrant:
     name: Lint Vagrantfiles
     uses: cb0n3y/ci-templates/.github/workflows/lint-vagrant.yml@main
