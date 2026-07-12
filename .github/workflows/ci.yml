@@ -14,3 +14,15 @@ jobs:
   lint-vagrant:
     name: Lint Vagrantfiles
     uses: cb0n3y/ci-templates/.github/workflows/lint-vagrant.yml@main
+  
+  lint-bash:
+    name: Lint Bash Scripts
+    uses: cb0n3y/ci-templates/.github/workflows/lint-bash.yml@main
+  
+  lint-yaml:
+    name: Lint YAML Files
+    uses: cb0n3y/ci-templates/.github/workflows/lint-yaml.yml@main
+  
+  secret-detection:
+    name: Secret Detection
+    uses: cb0n3y/ci-templates/.github/workflows/secret-detection.yml@main
