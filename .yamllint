@@ -1,5 +1,5 @@
+---
 extends: default
 
 rules:
-  truthy:
-    allowed-values: ['true', 'false', 'on']
+  truthy: disable
