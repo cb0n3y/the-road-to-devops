@@ -1,6 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+if File.exist?(".env")
+  File.readlines(".env").each do |line|
+    next if line.strip.empty? || line.start_with?("#")
+    key, value = line.strip.split("=", 2)
+    ENV[key] ||= value
+  end
+end
+
 VAGRANTFILE_API_VERSION = "2"
 
 BOX_CPUS = 2
