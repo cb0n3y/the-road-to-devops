@@ -22,7 +22,7 @@ jobs:
 
   lint-yaml:
     name: Lint YAML Files
-    uses: cb0n3y/ci-templates/.github/workflows/lint-yaml.yml@ci/lint-yaml-bash
+    uses: cb0n3y/ci-templates/.github/workflows/lint-yaml.yml@v1.0.0
 
   secret-detection:
     name: Secret Detection
