@@ -1,35 +1,35 @@
 # Monitoring
 
-Esta sección documenta las herramientas de monitorización y observabilidad
-usadas en mi homelab, tanto las actuales como las de referencia histórica
-de proyectos/trabajos anteriores.
+This section documents the monitoring and observability tools used in my
+homelab, both the active stack and historical references from previous
+projects/jobs.
 
-## Stack activo
+## Active stack
 
-| Herramienta | Estado | Descripción |
+| Tool | Status | Description |
 |---|---|---|
-| [Prometheus](./prometheus/README.md) | 🚧 En construcción | Recolección de métricas (time-series) |
-| [Grafana](./grafana/README.md) | 🚧 En construcción | Visualización y dashboards |
+| [Prometheus](./prometheus/README.md) | 🚧 In progress | Metrics collection (time-series) |
+| [Grafana](./grafana/README.md) | 🚧 In progress | Visualization and dashboards |
 
-## Referencia histórica
+## Historical reference
 
-| Herramienta | Estado | Descripción |
+| Tool | Status | Description |
 |---|---|---|
-| [Zabbix](./zabbix/README.md) | 📦 Archivado | Setup usado en un puesto de trabajo anterior (RHEL/CentOS). Se mantiene como referencia, no está en uso activo en este homelab. |
+| [Zabbix](./zabbix/README.md) | 📦 Archived | Setup used in a previous job (RHEL/CentOS). Kept as reference only, not actively used in this homelab. |
 
-## Contexto
+## Context
 
-El stack activo del homelab es **Prometheus + Grafana**, corriendo sobre un
-clúster de Raspberry Pi 5. La documentación de Zabbix se conserva porque
-sigue siendo útil como referencia de patrones de monitorización (alerting,
-templates, arquitectura server/agent), aunque la implementación concreta
-(RHEL + MySQL) no aplica al entorno actual.
+The active homelab stack is **Prometheus + Grafana**, running on a
+Raspberry Pi 5 cluster. The Zabbix documentation is kept because it's
+still useful as a reference for monitoring patterns (alerting, templates,
+server/agent architecture), even though the concrete implementation
+(RHEL + MySQL) doesn't apply to the current environment.
 
 ## Roadmap
 
-- [x] Documentar setup de Zabbix (histórico)
-- [ ] Instalar Prometheus en Raspberry Pi 5
-- [ ] Instalar Grafana en Raspberry Pi 5
+- [x] Document Zabbix setup (historical)
+- [ ] Install Prometheus on Raspberry Pi 5
+- [ ] Install Grafana on Raspberry Pi 5
 - [ ] Exporters: `node_exporter`, `fritzbox_exporter`, `nextdns_exporter`
-- [ ] Dashboards iniciales (FritzBox, NextDNS)
+- [ ] Initial dashboards (FritzBox, NextDNS)
 - [ ] Alerting rules + Alertmanager
