@@ -10,15 +10,15 @@ on:
 jobs:
   lint-trailing:
     name: Lint Trailing Whitespace
-    uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@main
+    uses: cb0n3y/ci-templates/.github/workflows/lint-trailing.yml@v1.0.0-lint-trailing
 
   lint-vagrant:
     name: Lint Vagrantfiles
-    uses: cb0n3y/ci-templates/.github/workflows/lint-vagrant.yml@main
+    uses: cb0n3y/ci-templates/.github/workflows/lint-vagrant.yml@v1.0.0-lint-vagrant
 
   lint-bash:
     name: Lint Bash Scripts
-    uses: cb0n3y/ci-templates/.github/workflows/lint-bash.yml@main
+    uses: cb0n3y/ci-templates/.github/workflows/lint-bash.yml@v1.0.0-lint-bash
 
   lint-yaml:
     name: Lint YAML Files
