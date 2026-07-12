@@ -1,6 +1,6 @@
 # Functions of Zabbix
 
-The functions of Zabbix are divided into the following main areas:  
+The functions of Zabbix are divided into the following main areas:
 -   Collect data
 -   process data
 -   react and trigger actions
