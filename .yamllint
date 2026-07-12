@@ -3,6 +3,3 @@ extends: default
 
 rules:
   truthy: disable
-  brackets:
-    min-spaces-inside: 1
-    max-spaces-inside: 1
