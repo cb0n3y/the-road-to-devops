@@ -1,0 +1,46 @@
+---
+- hosts: hostname
+  tasks:
+    - name: Create a scripts folder if does not exist
+      file:
+        path: '/etc/zabbix/scripts'
+        state: directory
+        mode: '0755'
+
+    - name: Copy smartctl script to remote hosts
+      copy:
+        src: "{{ item }}"
+        dest: '/etc/zabbix/scripts/'
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+        - '/path/to/smartctl-disks-discovery.pl'
+
+    - name: Copy userparameter config to remote hosts
+      copy:
+        src: "{{ item }}"
+        dest: '/etc/zabbix/zabbix_agentd.d/'
+        owner: root
+        group: root
+        mode: '644'
+      with_items:
+        - '/path/to/userparameter_smartctl.conf'
+
+    - name: Copy sudoers_zabbix_smartctl to /etc/sudoers.d/
+      copy:
+        src: "{{ item }}"
+        dest: '/etc/sudoers.d/'
+        owner: root
+        group: root
+        mode: '644'
+      with_items:
+        - '/path/to/sudoers_zabbix_smartctl'
+
+    - name: "Restart zabbix-agent via systemd"
+      systemd:
+        name: zabbix-agent
+        state: restarted
+
+    - name: Run zabbix_agentd
+      command: zabbix_agentd -p
