@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+servers = [
+  { :name => "dev-elk01", :ip => "192.168.56.15", :hostname => "dev-elk01", :box => "generic/rocky9", :cpus => 2, :ram => 4096, :extra_role => "kibana_logstash" },
+  { :name => "dev-elk02", :ip => "192.168.56.16", :hostname => "dev-elk02", :box => "generic/rocky9", :cpus => 2, :ram => 4096, :extra_role => nil },
+  { :name => "dev-elk03", :ip => "192.168.56.17", :hostname => "dev-elk03", :box => "generic/rocky9", :cpus => 2, :ram => 4096, :extra_role => nil }
+]
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box_check_update = false
+
+  hosts_entries = servers.map { |s| "#{s[:ip]} #{s[:hostname]}" }.join("\n")
+  seed_hosts    = servers.map { |s| s[:hostname] }
+
+  servers.each do |srv|
+    config.vm.define srv[:name] do |node|
+      node.vm.box = srv[:box]
+      node.vm.hostname = srv[:hostname]
+      node.vm.network "private_network", ip: srv[:ip]
+
+      node.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.customize ["modifyvm", :id, "--groups", "/DevOps-Lab/observability/elk"]
+        vb.name = srv[:name]
+        vb.cpus = srv[:cpus]
+        vb.memory = srv[:ram]
+      end
+
+      node.vm.provision "shell", inline: <<-SHELL
+        echo "#{hosts_entries}" >> /etc/hosts
+        sysctl -w vm.max_map_count=262144
+        echo "vm.max_map_count=262144" >> /etc/sysctl.conf
+        swapoff -a
+      SHELL
+
+      # Elasticsearch en los 3 nodos
+      node.vm.provision "shell", path: "provision/elasticsearch.sh",
+        args: [srv[:hostname], seed_hosts.join(",")]
+
+      # Kibana + Logstash solo en dev-elk01
+      if srv[:extra_role] == "kibana_logstash"
+        node.vm.provision "shell", path: "provision/kibana_logstash.sh",
+          args: [srv[:hostname]]
+      end
+    end
+  end
+end
