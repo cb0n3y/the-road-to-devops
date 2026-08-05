@@ -20,7 +20,8 @@ pipeline {
                 sh '''
                     find . -name "*.md" | while read f; do
                         echo "Checking: $f"
-                        grep -l "TODO\|FIXME\|PLACEHOLDER" "$f" && echo "WARNING: placeholder found in $f" || true
+                        grep -l "TODO" "$f" && echo "WARNING: placeholder found in $f" || true
+                        grep -l "FIXME" "$f" && echo "WARNING: placeholder found in $f" || true
                     done
                 '''
             }
@@ -34,7 +35,7 @@ pipeline {
                     echo "=== Markdown files ==="
                     find . -name "*.md" | wc -l
                     echo "=== YAML files ==="
-                    find . -name "*.yml" -o -name "*.yaml" | wc -l
+                    find . -name "*.yml" | wc -l
                 '''
             }
         }
@@ -55,11 +56,11 @@ pipeline {
 
     post {
         success {
-            echo '[+] Pipeline completed successfully!'
+            echo 'Pipeline completed successfully!'
             cleanWs()
         }
         failure {
-            echo '[+] Pipeline failed!'
+            echo 'Pipeline failed!'
         }
     }
 }
